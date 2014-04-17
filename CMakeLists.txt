@@ -3,17 +3,17 @@
 #  Copyright 2010 CNRS
 #
 
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8.3)
 
 project(dyn_oppoint_modifier)
 
-find_package(catkin REQUIRED COMPONENTS)
+find_package(catkin REQUIRED COMPONENTS sot_cmake dynamic-graph dynamic-graph-python jrl-mal sot-core)
 find_package(PkgConfig REQUIRED)
 
 catkin_package(
 	INCLUDE_DIRS include
 	LIBRARIES dyn_oppoint_modifier
-	DEPENDS jrl-mathtools jrl-mal dynamic-graph dynamic-graph-python sot-core
+	DEPENDS jrl-mal dynamic-graph dynamic-graph-python sot-core
 )
 
 include_directories(include ${catkin_INCLUDE_DIRS})
@@ -24,13 +24,6 @@ add_library(dyn_oppoint_modifier
 )
 target_link_libraries(dyn_oppoint_modifier ${catkin_LIBRARIES})
 
-set(PKG_DEP dynamic-graph dynamic-graph-python jrl-mathtools jrl-mal sot-core)
-foreach(DEP ${PKG_DEP})
-	message("invoking dependency check for: ${DEP}")
-	pkg_check_modules(${DEP} REQUIRED ${DEP})
-	message("use dependency for:  ${${DEP}_LDFLAGS}")
-	target_link_libraries(dyn_oppoint_modifier ${${DEP}_LDFLAGS})
-endforeach(DEP)
 
 # ADD SUBDIRECTORY FOR PYTHON WRAPPER EXPORT
 add_subdirectory(src)
